@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## Requirements
 
-* Ruby version
+### Ruby version
+2.7.4
 
-* System dependencies
+### Database
+PostgreSQL 12+
 
-* Configuration
+## Installation
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Just run `bundle`
+- And `npm install`
+- You should be able to run the server after `db:create` and `rails s`
