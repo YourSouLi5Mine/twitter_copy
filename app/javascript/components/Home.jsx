@@ -36,7 +36,7 @@ const Home = () => {
         'tweet': {
           'content': tweet
         }
-      })
+      });
       await fetch('/tweets', {
         method: 'post',
         headers: {
@@ -57,8 +57,29 @@ const Home = () => {
       const token = document.querySelector('meta[name="csrf-token"]').content;
       const body = JSON.stringify({
         'tweet_id': id
-      })
+      });
       await fetch('/likes', {
+        method: 'post',
+        headers: {
+          "X-CSRF-Token": token,
+          'Content-Type':'application/json'
+        },
+        body: body
+      });
+      await loadTweets();
+    } catch(error) {
+      throw error;
+      console.log(error);
+    };
+  };
+  
+  const handleRetweet = async (id) => {
+    try {
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+      const body = JSON.stringify({
+        'tweet_id': id
+      });
+      await fetch('/retweets', {
         method: 'post',
         headers: {
           "X-CSRF-Token": token,
@@ -87,6 +108,10 @@ const Home = () => {
               <Typography variant="h6">{tweet.content}</Typography>
               <ThumbUpIcon mt={1} onClick={_event => handleLike(tweet.id)} />
               <Typography display="inline" ml={1}>{tweet.likes_count}</Typography>
+              <Box xs={{ width: 100 }}>
+                <CustomButton variant='outlined' color='secondary' onClick={_vent => handleRetweet(tweet.id)} ml={2} mt={1}>Retweet</CustomButton>
+              </Box>
+              <Typography>Retweets: {tweet.retweets_count}</Typography>
             </Box>
           );
         })

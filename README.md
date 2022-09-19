@@ -12,5 +12,7 @@ PostgreSQL 12+
 ## Installation
 
 - Just run `bundle`
-- And `npm install`
+- And `yarn install`
 - You should be able to run the server after `db:create` and `rails s`
+![Example](https://ibb.co/sgXLq3D)
+
