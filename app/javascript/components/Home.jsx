@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react"
 import { Typography, Box, TextField, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { spacing } from "@mui/system";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 
 const CustomButton = styled(Button)(spacing);
 
 const Home = () => {
   const [tweets, setTweets] = useState([]);
-  const [post, setPost] = useState(null);
+  const [tweet, setTweet] = useState(null);
 
   useEffect(() => {
     loadTweets();
@@ -25,7 +26,7 @@ const Home = () => {
   };
 
   const handleChange = (event) => {
-    setPost(event.target.value);
+    setTweet(event.target.value);
   };
 
   const handleSubmit = async () => {
@@ -33,10 +34,31 @@ const Home = () => {
       const token = document.querySelector('meta[name="csrf-token"]').content;
       const body = JSON.stringify({
         'tweet': {
-          'content': post
+          'content': tweet
         }
       })
       await fetch('/tweets', {
+        method: 'post',
+        headers: {
+          "X-CSRF-Token": token,
+          'Content-Type':'application/json'
+        },
+        body: body
+      });
+      await loadTweets();
+    } catch(error) {
+      throw error;
+      console.log(error);
+    };
+  };
+
+  const handleLike = async (id) => {
+    try {
+      const token = document.querySelector('meta[name="csrf-token"]').content;
+      const body = JSON.stringify({
+        'tweet_id': id
+      })
+      await fetch('/likes', {
         method: 'post',
         headers: {
           "X-CSRF-Token": token,
@@ -63,6 +85,8 @@ const Home = () => {
             <Box m={5}>
               <Typography><b>{tweet.email}</b> tweeted on: {tweet.created_at}</Typography>
               <Typography variant="h6">{tweet.content}</Typography>
+              <ThumbUpIcon mt={1} onClick={_event => handleLike(tweet.id)} />
+              <Typography display="inline" ml={1}>{tweet.likes_count}</Typography>
             </Box>
           );
         })

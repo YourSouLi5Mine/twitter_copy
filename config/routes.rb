@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   root to: 'tweets#index'
 
   resources :tweets, only: [:index, :create]
+  resources :likes, only: [:create]
 end
