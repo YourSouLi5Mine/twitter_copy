@@ -18,6 +18,9 @@ class TweetsController < ApplicationController
   end
 
   def tweets
-    Tweet.includes(:user).order(created_at: :desc).as_json(only: [:id, :content, :created_at], methods: [:email, :likes_count])
+    Tweet.includes(:user).order(created_at: :desc).as_json(
+      only: [:id, :content, :created_at],
+      methods: [:email, :likes_count, :retweets_count]
+    )
   end
 end
